@@ -1,0 +1,21 @@
+{
+  "name": "protondb-parser",
+  "module": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "bun ."
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/decompress": "^4.2.7",
+    "@types/follow-redirects": "^1.14.4"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "date-fns": "^3.3.1",
+    "decompress": "^4.2.1",
+    "follow-redirects": "^1.15.5"
+  }
+}
