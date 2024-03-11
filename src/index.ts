@@ -31,7 +31,30 @@ export async function main() {
     allRelevantReports = [...allRelevantReports, ...relevantReports];
   }
 
-  await writeFile(join(import.meta.dirname, '../reports.json'), JSON.stringify(allRelevantReports, null, 2), 'utf-8');
+  const output: Record<string, ReportOutput> = allRelevantReports.reduce((output, report) => {
+    if (!output[report.app.steam.appId]) {
+      output[report.app.steam.appId] = {
+        id: report.app.steam.appId,
+        title: report.app.title,
+        reports: [],
+      };
+    }
+
+    output[report.app.steam.appId].reports.push({
+      responses: report.responses,
+      systemInfo: report.systemInfo,
+    });
+
+    return output;
+  }, {} as Record<string, ReportOutput>);
+
+  await writeFile(join(import.meta.dirname, '../reports.json'), JSON.stringify(output, null, 2), 'utf-8');
 }
 
 main();
+
+export type ReportOutput = {
+  id: string;
+  title: string;
+  reports: Pick<protondb.Report, 'responses' | 'systemInfo'>[];
+};
